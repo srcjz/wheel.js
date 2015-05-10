@@ -33,6 +33,8 @@ var Timer = wheel.newClass({
     }
 });
 
+wheel.renderFor("content", [Timer,0]);
+
 ```
 
 # CommentBox
@@ -110,6 +112,7 @@ var CommentBox = wheel.newClass({
     }
 });
 
+wheel.renderFor("content", [CommentBox, {data:data, pollInterval:200}]);
 
 
 ```
