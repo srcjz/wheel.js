@@ -1,23 +1,17 @@
-# wheel.js
-React.js in less than 200 lines.
+<html>
+<head>
+    <title>hello</title>
 
-# HelloMessage
-
-```javascript
+   <script src="https://ss0.bdstatic.com/5eN1bjq8AAUYm2zgoY3K/r/www/cache/static/protocol/https/jquery/jquery-1.10.2.min_f2fb5194.js"></script> 
+   <script src="wheel.js"></script> 
+    <script>
+        $(function(){
 
 var HelloMessage = wheel.newClass({
     jml: function(){
         return ["div","Hello, ", this.nodes.join(", "), "!"];
     }
 });
-
-wheel.renderFor("content", [HelloMessage,"World"]);
-
-```
-
-# Timer
-
-```javascript
 
 var Timer = wheel.newClass({
     init: function() {
@@ -33,16 +27,11 @@ var Timer = wheel.newClass({
     }
 });
 
-```
-
-# CommentBox
-
-```javascript
 
 var data = [
     {author: "Pete Hunt", text: "This is one comment"},
-    {author: "Jordan Walke", text: "This is another comment"}];
-
+    {author: "Jordan Walke", text: "This is *another* comment"}
+];
 
 
 var Comment = wheel.newClass({
@@ -61,6 +50,46 @@ var CommentList = wheel.newClass({
     }
 });
 
+var TodoList = wheel.newClass({
+    jml: function() {
+        var createItem = function(itemText, index) {
+            return ["li", itemText];
+        };
+
+        return ["ul"].concat(this.props.items.map(createItem));
+    }
+});
+
+
+var TodoApp = wheel.newClass({
+    init: function() {
+        this.items = [];
+        this.text = "";
+    }, 
+
+    handleSubmit: function(e) {
+        e.preventDefault();
+        if (this.text.length>0) {
+            this.items.push(this.text);
+            this.text = "";
+            this.update();
+        };
+    },
+
+    onChange: function(e) {
+        this.text = e.target.value;
+    },
+  jml: function() {
+
+    return ["div",["h3","TODO"],
+        [TodoList,{items: this.items}],
+        ["form", {submit: this.handleSubmit},
+            ["input",{value:"", change:this.onChange}],
+            ["button", "Add #"+(this.items.length+1)]
+        ]
+    ];
+  }
+});
 
 var CommentForm = wheel.newClass({
     handleSubmit: function(e, form) {
@@ -100,6 +129,7 @@ var CommentBox = wheel.newClass({
                 lastLength = data.length;
             };
 
+            //self.update();
         }, this.props.pollInterval);
     },
     jml: function() {
@@ -111,5 +141,15 @@ var CommentBox = wheel.newClass({
 });
 
 
+wheel.renderFor("content", ["div",[HelloMessage,"World"],["br"],[Timer,0],["br"],[CommentBox, {data:data, pollInterval:200}]]);
 
-```
+
+ });
+
+    </script>
+</head>
+
+<div id="content">
+</div>
+
+</html>
